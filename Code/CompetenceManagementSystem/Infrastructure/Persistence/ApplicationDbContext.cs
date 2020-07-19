@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CompetenceManagementSystem.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         private readonly ICurrentUserService _currentUserService;
 
@@ -44,11 +44,11 @@ namespace CompetenceManagementSystem.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
+                        entry.Entity.CreatedBy = _currentUserService.UserName;
                         entry.Entity.Created = _dateTimeProvider.UtcNow;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                        entry.Entity.LastModifiedBy = _currentUserService.UserName;
                         entry.Entity.LastModified = _dateTimeProvider.UtcNow;
                         break;
                 }

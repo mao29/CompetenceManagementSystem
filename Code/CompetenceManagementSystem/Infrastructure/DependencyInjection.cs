@@ -29,6 +29,8 @@ namespace CompetenceManagementSystem.Infrastructure
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             }
 
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                         .AddEntityFrameworkStores<ApplicationDbContext>()
                                         .AddDefaultTokenProviders();
