@@ -46,36 +46,39 @@
 
     <h5>@Html.DisplayNameFor(model => model.Data.Competences)</h5>
 
+    <p>
+        <a asp-page="./EmployeeCompetences/Create" asp-route-employeeId="@Model.Data.Id">Создать</a>
+    </p>
     <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Data.Competences[0].Competence)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Data.Competences[0].Level)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Data.Competences)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Competence)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Level)
-            </td>
-            <td>
-                <a asp-page="./EmployeeCompetences/Edit" asp-route-id="@item.Id">Изменить</a> |
-                <a asp-page="./EmployeeCompetences/Details" asp-route-id="@item.Id">Подробнее</a> |
-                <a asp-page="./EmployeeCompetences/Delete" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
-        }
-    </tbody>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data.Competences[0].Competence)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data.Competences[0].Level)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data.Competences)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Competence)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Level)
+                    </td>
+                    <td>
+                        <a asp-page="./EmployeeCompetences/Edit" asp-route-employeeId="@item.EmployeeId" asp-route-competenceId="@item.CompetenceId">Изменить</a> |
+                        <a asp-page="./EmployeeCompetences/Details" asp-route-employeeId="@item.EmployeeId" asp-route-competenceId="@item.CompetenceId">Подробнее</a> |
+                        <a asp-page="./EmployeeCompetences/Delete" asp-route-employeeId="@item.EmployeeId" asp-route-competenceId="@item.CompetenceId">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
 <div>

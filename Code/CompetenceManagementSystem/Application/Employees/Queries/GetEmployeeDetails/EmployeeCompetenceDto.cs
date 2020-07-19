@@ -11,7 +11,9 @@ namespace Application.Employees.Queries.GetEmployeeDetails
 {
     public class EmployeeCompetenceDto : IMapFrom<EmployeeCompetence>
     {
-        public int Id { get; set; }
+        public int EmployeeId { get; set; }
+
+        public int CompetenceId { get; set; }
 
         [Display(Name = "Компетенция")]
         public string Competence { get; set; }

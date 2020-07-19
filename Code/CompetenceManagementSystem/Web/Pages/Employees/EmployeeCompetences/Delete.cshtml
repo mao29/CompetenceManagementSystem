@@ -1,0 +1,66 @@
+﻿@page
+@model CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences.DeleteModel
+
+@{
+    ViewData["Title"] = "Удаление";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Удаление</h1>
+
+<h3>Вы уверены что хотите удалить запись?</h3>
+<div>
+    <h4>Компетенция сотрудника</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.EmployeeName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.EmployeeName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.CompetenceName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.CompetenceName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.Level)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.Level)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.CreatedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.CreatedBy)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.Created)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.Created)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.LastModifiedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.LastModifiedBy)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.LastModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.LastModified)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Data.EmployeeId" />
+        <input type="hidden" asp-for="Data.CompetenceId" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-page="../Details" asp-route-id="@Model.Data.EmployeeId">Вернуться к сотруднику</a>
+    </form>
+</div>

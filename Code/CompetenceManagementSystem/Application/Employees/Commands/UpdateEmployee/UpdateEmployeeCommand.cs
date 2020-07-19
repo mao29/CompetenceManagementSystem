@@ -35,6 +35,11 @@ namespace Application.Employees.Commands.UpdateEmployee
         {
             var employee = await _context.Employees.FindAsync(request.Id);
 
+            if (employee == null)
+            {
+                throw new NotFoundException(nameof(Employee), request.Id);
+            }
+
             employee.Name = request.Name;
 
             try
