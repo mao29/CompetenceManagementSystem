@@ -1,0 +1,91 @@
+﻿@page
+@model CompetenceManagementSystem.Web.Pages.Employees.SearchModel
+@{
+    ViewData["Title"] = "Поиск";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Поиск</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <form method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        @*<td style="width:10em">Категория</td>*@
+                        <td>Компетенция</td>
+                        <td style="width: 10em">Минимальный уровень</td>
+                        <td style="width: 4em">Обязательность</td>
+                        <td style="width: 2em"><button asp-page-handler="AddCompetenceRequest" class="btn btn-outline-success float-right">+</button></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var competence in Model.Request.Competences)
+                    {
+                        var index = Model.Request.Competences.IndexOf(competence);
+                        <tr>
+                            @*<td><select name="Request.Competences[@index].Category" asp-for="Request.Competences[index].Category" asp-items="Model.Categories" class="form-control"></select></td>*@
+                            <td><select name="Request.Competences[@index].CompetenceId" asp-for="Request.Competences[index].CompetenceId" asp-items="Model.Competences" class="form-control"></select> </td>
+                            @*<td class="text-center"> @Html.CheckBoxFor(m => m.Request.Competences[index].Required) </td>*@
+                            <td><select name="Request.Competences[@index].MinLevel" asp-for="Request.Competences[index].MinLevel" asp-items="Model.Levels" class="form-control"></select></td>
+                            <td class="text-center">@Html.CheckBoxFor(m => m.Request.Competences[index].MinLevelRequired) </td>
+                            <td><button asp-page-handler="RemoveCompetenceRequest" asp-route-index="@index" class="btn btn-outline-danger float-right">-</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <input type="submit" value="Поиск" asp-page-handler="Search" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+
+<hr />
+<h2>Результаты</h2>
+<hr />
+@if (Model.Result != null)
+{
+    @if (Model.Result.Employees.Any())
+    {
+        <div class="row">
+            <div class="col-md-16">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Имя</td>
+                            @for (int i = 0; i < Model.Request.Competences.Count; i++)
+                            {
+                                <td>@Model.Result.Employees.First().Competences[i].Name</td>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employee in Model.Result.Employees)
+                        {
+                            <tr>
+                                <td>@employee.Name</td>
+                                @for (int i = 0; i < Model.Request.Competences.Count; i++)
+                                {
+                                    <td>@employee.Competences[i].Level</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <span>Нет удовлетворяющих результату сотрудников</span>
+    }
+}
+
+@section Scripts {
+    <script>
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
