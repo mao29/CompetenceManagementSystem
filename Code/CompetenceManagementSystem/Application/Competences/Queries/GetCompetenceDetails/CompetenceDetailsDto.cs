@@ -4,6 +4,7 @@ using CompetenceManagementSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace Application.Competences.Queries.GetCompetenceDetails
@@ -33,15 +34,21 @@ namespace Application.Competences.Queries.GetCompetenceDetails
         [Display(Name = "Редактор")]
         public string LastModifiedBy { get; set; }
 
+        [Display(Name = "Ресурсы для освоения")]
+        public IList<CompetenceResourceDto> Resources { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Competence, CompetenceDetailsDto>()
                 .ForMember(d => d.CompetenceCategory, opt => opt.MapFrom(s => s.Category.Name))
                 .ForMember(d => d.Type, opt => opt.MapFrom(s => s.Type.GetDisplayText()))
                 .ForMember(d => d.Created, opt => opt.MapFrom(s => s.Created.ToString("dd.MM.yyyy hh:mm:ss")))
-                .ForMember(d => d.LastModified, opt => opt.MapFrom(s => s.LastModified != null 
-                    ? s.LastModified.Value.ToString("dd.MM.yyyy hh:mm:ss") 
-                    : ""));
+                .ForMember(d => d.LastModified, opt => opt.MapFrom(s => s.LastModified != null
+                    ? s.LastModified.Value.ToString("dd.MM.yyyy hh:mm:ss")
+                    : ""))
+                .ForMember(d => d.Resources, opt => opt.MapFrom(s => s.Resources
+                    .OrderBy(x => x.Level)
+                    .ThenBy(x => x.Resource.Name)));
         }
     }
 }

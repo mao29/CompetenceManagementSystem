@@ -30,6 +30,8 @@ namespace Application.Competences.Queries.GetCompetenceDetails
         public async Task<CompetenceDetailsDto> Handle(GetCompetenceDetailsQuery request, CancellationToken cancellationToken)
         {
             return await _context.Competences
+                .Include(x => x.Resources)
+                .ThenInclude(x => x.Resource)
                 .ProjectTo<CompetenceDetailsDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
         }

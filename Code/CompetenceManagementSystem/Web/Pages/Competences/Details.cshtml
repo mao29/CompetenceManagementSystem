@@ -55,6 +55,49 @@
             @Html.DisplayFor(model => model.Data.LastModified)
         </dd>
     </dl>
+
+    <h5>@Html.DisplayNameFor(model => model.Data.Resources)</h5>
+
+    <p>
+        <a asp-page="./CompetenceResources/Create" asp-route-competenceId="@Model.Data.Id">Создать</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data.Resources[0].Level)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data.Resources[0].Resource)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data.Resources[0].Comment)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data.Resources)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Level)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Resource)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        <a asp-page="./CompetenceResources/Edit" asp-route-resourceId="@item.ResourceId" asp-route-competenceId="@item.CompetenceId">Изменить</a> |
+                        <a asp-page="./CompetenceResources/Details" asp-route-resourceId="@item.ResourceId" asp-route-competenceId="@item.CompetenceId">Подробнее</a> |
+                        <a asp-page="./CompetenceResources/Delete" asp-route-resourceId="@item.ResourceId" asp-route-competenceId="@item.CompetenceId">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Data.Id">Изменить</a> |

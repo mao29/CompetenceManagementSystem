@@ -30,6 +30,8 @@ namespace Application.Employees.Queries.GetEmployeeDetails
         public async Task<EmployeeDetailsDto> Handle(GetEmployeeDetailsQuery request, CancellationToken cancellationToken)
         {
             return await _context.Employees
+                .Include(x => x.Competences)
+                .ThenInclude(x => x.Competence)
                 .ProjectTo<EmployeeDetailsDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
         }

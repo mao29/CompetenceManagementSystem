@@ -4,6 +4,7 @@ using CompetenceManagementSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace Application.Employees.Queries.GetEmployeeDetails
@@ -37,7 +38,9 @@ namespace Application.Employees.Queries.GetEmployeeDetails
                 .ForMember(d => d.LastModified, opt => opt.MapFrom(s => s.LastModified != null
                     ? s.LastModified.Value.ToString("dd.MM.yyyy hh:mm:ss")
                     : ""))
-                .ForMember(d => d.Competences, opt => opt.MapFrom(s => s.Competences));
+                .ForMember(d => d.Competences, opt => opt.MapFrom(s => s.Competences
+                    .OrderBy(x => x.Level)
+                    .ThenBy(x => x.Competence.Name)));
         }
     }
 }
