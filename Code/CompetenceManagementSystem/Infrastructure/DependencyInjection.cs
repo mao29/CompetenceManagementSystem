@@ -36,7 +36,6 @@ namespace CompetenceManagementSystem.Infrastructure
                                         .AddDefaultTokenProviders();
 
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
         }
