@@ -9,7 +9,7 @@ namespace Application.Employees.Commands.CreateEmployeeCompetence
 {
     public class CreateEmployeeCompetenceViewModel : IMapFrom<EmployeeCompetence>
     {
-        public CreateEmployeeCompetenceCommand CreateCommand { get; set; }
+        public int EmployeeId { get; set; }
 
         [Display(Name = "Сотрудник")]
         public string EmployeeName { get; set; }

@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using CompetenceManagementSystem.Domain.Entities;
 using CompetenceManagementSystem.Infrastructure.Persistence;
 using MediatR;
-using Application.Employees.Commands.UpdateEmployeeCompetence;
-using FluentValidation;
-using Application.Common.Exceptions;
+using Application.Competences.Commands.UpdateCompetence;
 using CompetenceManagementSystem.Domain.Enums;
 using Application.Common.Mappings;
+using FluentValidation;
+using Application.Common.Exceptions;
 
-namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
+namespace CompetenceManagementSystem.Web.Pages.Competences
 {
     public class EditModel : PageModel
     {
@@ -27,15 +27,25 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
         }
 
         [BindProperty]
-        public UpdateEmployeeCompetenceCommand Command { get; set; }
+        public UpdateCompetenceCommand Command { get; set; }
 
-        public IEnumerable<SelectListItem> Levels => Enum.GetValues(typeof(CompetenceLevel))
-            .Cast<CompetenceLevel>()
+        public IEnumerable<SelectListItem> Categories { get; set; }
+
+        public IEnumerable<SelectListItem> Types => Enum.GetValues(typeof(CompetenceType))
+            .Cast<CompetenceType>()
             .Select(x => new SelectListItem(x.GetDisplayText(), x.ToString()));
 
-        public async Task<IActionResult> OnGetAsync(int employeeId, int competenceId)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            Command = await _mediator.Send(new UpdateEmployeeCompetenceQuery() { EmployeeId = employeeId, CompetenceId = competenceId });
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = await _mediator.Send(new UpdateCompetenceQuery() { Id = id.Value });
+
+            Command = viewModel.Command;
+            Categories = viewModel.Caterogies.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
 
             if (Command == null)
             {
@@ -49,7 +59,7 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
             try
             {
                 await _mediator.Send(Command);
-                return RedirectToPage("../Details", new { id = Command.EmployeeId });
+                return RedirectToPage("./Index");
             }
             catch (ValidationException ex)
             {
@@ -57,6 +67,9 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
                 {
                     ModelState.AddModelError($"{nameof(Command)}.{error.PropertyName}", error.ErrorMessage);
                 }
+
+                var viewModel = await _mediator.Send(new UpdateCompetenceQuery() { Id = Command.Id });
+                Categories = viewModel.Caterogies.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
                 return Page();
             }
             catch (NotFoundException)

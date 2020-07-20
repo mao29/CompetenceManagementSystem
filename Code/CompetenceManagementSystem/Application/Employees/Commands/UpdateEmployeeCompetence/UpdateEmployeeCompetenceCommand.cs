@@ -49,14 +49,14 @@ namespace Application.Employees.Commands.UpdateEmployeeCompetence
 
         public async Task<Unit> Handle(UpdateEmployeeCompetenceCommand request, CancellationToken cancellationToken)
         {
-            var employee = await _context.EmployeeCompetences.FindAsync(new[] { request.EmployeeId, request.CompetenceId }, cancellationToken);
+            var employeeCompetence = await _context.EmployeeCompetences.FindAsync(new object[] { request.CompetenceId, request.EmployeeId }, cancellationToken);
             
-            if (employee == null)
+            if (employeeCompetence == null)
             {
                 throw new NotFoundException(nameof(EmployeeCompetence), $"{request.EmployeeId} {request.CompetenceId}");
             }
             
-            employee.Level = request.Level;
+            employeeCompetence.Level = request.Level;
 
             try
             {

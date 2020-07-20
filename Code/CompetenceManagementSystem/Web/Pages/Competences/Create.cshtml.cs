@@ -5,42 +5,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using CompetenceManagementSystem.Domain.Entities;
 using CompetenceManagementSystem.Infrastructure.Persistence;
 using MediatR;
-using Application.Employees.Commands.UpdateEmployeeCompetence;
-using FluentValidation;
-using Application.Common.Exceptions;
+using Application.Competences.Commands.CreateCompetence;
 using CompetenceManagementSystem.Domain.Enums;
 using Application.Common.Mappings;
+using FluentValidation;
 
-namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
+namespace CompetenceManagementSystem.Web.Pages.Competences
 {
-    public class EditModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly IMediator _mediator;
 
-        public EditModel(IMediator mediator)
+        public CreateModel(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [BindProperty]
-        public UpdateEmployeeCompetenceCommand Command { get; set; }
+        public CreateCompetenceCommand Command { get; set; }
 
-        public IEnumerable<SelectListItem> Levels => Enum.GetValues(typeof(CompetenceLevel))
-            .Cast<CompetenceLevel>()
+        public IEnumerable<SelectListItem> Categories { get; set; }
+
+        public IEnumerable<SelectListItem> Types => Enum.GetValues(typeof(CompetenceType))
+            .Cast<CompetenceType>()
             .Select(x => new SelectListItem(x.GetDisplayText(), x.ToString()));
 
-        public async Task<IActionResult> OnGetAsync(int employeeId, int competenceId)
+        public async Task<IActionResult> OnGetAsync()
         {
-            Command = await _mediator.Send(new UpdateEmployeeCompetenceQuery() { EmployeeId = employeeId, CompetenceId = competenceId });
-
-            if (Command == null)
-            {
-                return NotFound();
-            }
+            Categories = (await _mediator.Send(new CreateCompetenceQuery())).Caterogies
+                .Select(x => new SelectListItem(x.Name, x.Id.ToString()));
             return Page();
         }
 
@@ -49,7 +45,7 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
             try
             {
                 await _mediator.Send(Command);
-                return RedirectToPage("../Details", new { id = Command.EmployeeId });
+                return RedirectToPage("./Index");
             }
             catch (ValidationException ex)
             {
@@ -57,11 +53,9 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
                 {
                     ModelState.AddModelError($"{nameof(Command)}.{error.PropertyName}", error.ErrorMessage);
                 }
+                Categories = (await _mediator.Send(new CreateCompetenceQuery())).Caterogies
+                    .Select(x => new SelectListItem(x.Name, x.Id.ToString()));
                 return Page();
-            }
-            catch (NotFoundException)
-            {
-                return NotFound();
             }
         }
     }

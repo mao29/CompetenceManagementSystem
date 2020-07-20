@@ -19,12 +19,13 @@ namespace Application.Employees.Queries.GetEmployeeDetails
         public string Competence { get; set; }
 
         [Display(Name = "Уровень владения")]
-        public CompetenceLevel Level { get; set; }
+        public string Level { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<EmployeeCompetence, EmployeeCompetenceDto>()
-                .ForMember(x => x.Competence, opt => opt.MapFrom(x => x.Competence.Name));
+                .ForMember(x => x.Competence, opt => opt.MapFrom(x => x.Competence.Name))
+                .ForMember(x => x.Level, opt => opt.MapFrom(x => x.Level.GetDisplayText()));
         }
     }
 }

@@ -24,8 +24,10 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
             _mediator = mediator;
         }
 
-        [BindProperty]
         public CreateEmployeeCompetenceViewModel Data { get; set; }
+
+        [BindProperty]
+        public CreateEmployeeCompetenceCommand Command { get; set; }
 
         public IEnumerable<SelectListItem> Levels => Enum.GetValues(typeof(CompetenceLevel))
             .Cast<CompetenceLevel>()
@@ -35,24 +37,28 @@ namespace CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences
 
         public async Task<IActionResult> OnGetAsync(int employeeId)
         {
+            Command = new CreateEmployeeCompetenceCommand() { EmployeeId = employeeId };
             Data = await _mediator.Send(new CreateEmployeeCompetenceQuery() { EmployeeId = employeeId });
             Competences = Data.Competences.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int employeeId)
         {
             try
             {
-                await _mediator.Send(Data.CreateCommand);
-                return RedirectToPage("../Details", Data.CreateCommand.EmployeeId);
+                await _mediator.Send(Command);
+                return RedirectToPage("../Details", new { id = employeeId });
             }
             catch (ValidationException ex)
             {
                 foreach (var error in ex.Errors)
                 {
-                    ModelState.AddModelError($"{nameof(Data.CreateCommand)}.{error.PropertyName}", error.ErrorMessage);
+                    ModelState.AddModelError($"{nameof(Command)}.{error.PropertyName}", error.ErrorMessage);
                 }
+
+                Data = await _mediator.Send(new CreateEmployeeCompetenceQuery() { EmployeeId = employeeId });
+                Competences = Data.Competences.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
                 return Page();
             }
         }

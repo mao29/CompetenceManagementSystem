@@ -1,5 +1,5 @@
 ﻿@page
-@model CompetenceManagementSystem.Web.Pages.Employees.EmployeeCompetences.DetailsModel
+@model CompetenceManagementSystem.Web.Pages.Competences.DetailsModel
 
 @{
     ViewData["Title"] = "Подробности";
@@ -9,26 +9,26 @@
 <h1>Подробности</h1>
 
 <div>
-    <h4>Компетенция сотрудника</h4>
+    <h4>Компетенция</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Data.EmployeeName)
+            @Html.DisplayNameFor(model => model.Data.CompetenceCategory)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Data.EmployeeName)
+            @Html.DisplayFor(model => model.Data.CompetenceCategory)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Data.CompetenceName)
+            @Html.DisplayNameFor(model => model.Data.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Data.CompetenceName)
+            @Html.DisplayFor(model => model.Data.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Data.Level)
+            @Html.DisplayNameFor(model => model.Data.Type)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Data.Level)
+            @Html.DisplayFor(model => model.Data.Type)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Data.CreatedBy)
@@ -57,6 +57,6 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-employeeId="@Model.Data.EmployeeId" asp-route-competenceId="@Model.Data.CompetenceId">Изменить</a> |
-    <a asp-page="../Details" asp-route-id="@Model.Data.EmployeeId">Вернуться к сотруднику</a>
+    <a asp-page="./Edit" asp-route-id="@Model.Data.Id">Изменить</a> |
+    <a asp-page="./Index">Вернуться к списку</a>
 </div>

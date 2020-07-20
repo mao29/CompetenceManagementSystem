@@ -28,7 +28,7 @@ namespace Application.Employees.Commands.DeleteEmployeeCompetence
 
         public async Task<Unit> Handle(DeleteEmployeeCompetenceCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.EmployeeCompetences.FindAsync(new[] { request.EmployeeId, request.CompetenceId }, cancellationToken);
+            var entity = await _context.EmployeeCompetences.FindAsync(new object[] { request.CompetenceId, request.EmployeeId, }, cancellationToken);
 
             if (entity == null)
             {

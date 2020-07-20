@@ -35,10 +35,7 @@ namespace Application.Employees.Commands.CreateEmployeeCompetence
             return new CreateEmployeeCompetenceViewModel()
             {
                 EmployeeName = employee.Name,
-                CreateCommand = new CreateEmployeeCompetenceCommand()
-                {
-                    EmployeeId = request.EmployeeId
-                },
+                EmployeeId = request.EmployeeId,
                 Competences = await _context.Competences
                     .Where(x => !existingCompetencesIds.Contains(x.Id))
                     .ProjectTo<CreateEmployeeCompetenceDto>(_mapper.ConfigurationProvider)

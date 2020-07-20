@@ -1,0 +1,50 @@
+﻿@page
+@model CompetenceManagementSystem.Web.Pages.Competences.IndexModel
+
+@{
+    ViewData["Title"] = "Компетенции";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Компетенции</h1>
+
+<p>
+    <a asp-page="Create">Создать</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Data.Competences[0].CompetenceCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data.Competences[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data.Competences[0].Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data.Competences)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompetenceCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Изменить</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Подробности</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

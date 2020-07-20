@@ -13,21 +13,21 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <input type="hidden" asp-for="Data.CreateCommand.EmployeeId" />
+            <input type="hidden" asp-for="Command.EmployeeId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Data.EmployeeName" class="control-label"></label>
                 <span class="form-control">@Model.Data.EmployeeName</span>
             </div>
             <div class="form-group">
-                <label asp-for="Data.CreateCommand.CompetenceId" class="control-label"></label>
-                <select asp-for="Data.CreateCommand.CompetenceId" class="form-control" asp-items="Model.Competences"></select>
-                <span asp-validation-for="Data.CreateCommand.CompetenceId" class="text-danger"></span>
+                <label asp-for="Command.CompetenceId" class="control-label"></label>
+                <select asp-for="Command.CompetenceId" class="form-control" asp-items="Model.Competences"></select>
+                <span asp-validation-for="Command.CompetenceId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Data.CreateCommand.Level" class="control-label"></label>
-                <select asp-for="Data.CreateCommand.Level" class="form-control" asp-items="Model.Levels"></select>
-                <span asp-validation-for="Data.CreateCommand.Level" class="text-danger"></span>
+                <label asp-for="Command.Level" class="control-label"></label>
+                <select asp-for="Command.Level" class="form-control" asp-items="Model.Levels"></select>
+                <span asp-validation-for="Command.Level" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Создать" class="btn btn-primary" />
@@ -37,7 +37,7 @@
 </div>
 
 <div>
-    <a asp-page="../Details" asp-route-id="@Model.Data.CreateCommand.EmployeeId">Вернуться к сотруднику</a>
+    <a asp-page="../Details" asp-route-id="@Model.Data.EmployeeId">Вернуться к сотруднику</a>
 </div>
 
 @section Scripts {
