@@ -24,7 +24,7 @@ namespace Application.Employees.Queries.GetEmployeeDetails
         public void Mapping(Profile profile)
         {
             profile.CreateMap<EmployeeCompetence, EmployeeCompetenceDto>()
-                .ForMember(x => x.Competence, opt => opt.MapFrom(x => x.Competence.Name))
+                .ForMember(x => x.Competence, opt => opt.MapFrom(x => $"{x.Competence.Name} ({x.Competence.Category.Name})"))
                 .ForMember(x => x.Level, opt => opt.MapFrom(x => x.Level.GetDisplayText()));
         }
     }

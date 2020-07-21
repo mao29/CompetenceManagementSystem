@@ -33,7 +33,8 @@ namespace Application.Competences.Queries.GetCompetences
             {
                 Competences = await _context.Competences
                     .ProjectTo<CompetenceDto>(_mapper.ConfigurationProvider)
-                    .OrderBy(x => x.Name)
+                    .OrderBy(x => x.CompetenceCategory)
+                    .ThenBy(x => x.Name)
                     .ToListAsync(cancellationToken)
             };
         }
