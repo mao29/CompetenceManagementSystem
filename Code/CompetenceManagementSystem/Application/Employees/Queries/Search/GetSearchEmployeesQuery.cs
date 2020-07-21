@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace Application.Employees.Queries.Search
         public async Task<IEnumerable<CompetenceDto>> Handle(GetSearchEmployeesQuery request, CancellationToken cancellationToken)
         {
             return await _context.Competences
+                    .OrderBy(x => x.Category.Name)
+                    .ThenBy(x => x.Name)
                     .ProjectTo<CompetenceDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
         }

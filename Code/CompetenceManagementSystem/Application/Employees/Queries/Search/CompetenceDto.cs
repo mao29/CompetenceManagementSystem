@@ -17,6 +17,7 @@ namespace Application.Employees.Queries.Search
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Competence, CompetenceDto>()
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => $"({x.Category.Name}) {x.Name}"))
                 .ForMember(x => x.Category, opt => opt.MapFrom(x => x.Category.Name));
         }
     }
