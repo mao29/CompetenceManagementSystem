@@ -23,15 +23,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var competence in Model.Request.Competences)
+                    @for (int index = 0; index < Model.SearchRequest.Competences.Count; index++)
                     {
-                        var index = Model.Request.Competences.IndexOf(competence);
+                        var competence = Model.SearchRequest.Competences[index];
                         <tr>
                             @*<td><select name="Request.Competences[@index].Category" asp-for="Request.Competences[index].Category" asp-items="Model.Categories" class="form-control"></select></td>*@
-                            <td><select name="Request.Competences[@index].CompetenceId" asp-for="Request.Competences[index].CompetenceId" asp-items="Model.Competences" class="form-control"></select> </td>
+                            <td><select name="SearchRequest.Competences[@index].CompetenceId" asp-for="@competence.CompetenceId" asp-items="Model.Competences" class="form-control"></select> </td>
                             @*<td class="text-center"> @Html.CheckBoxFor(m => m.Request.Competences[index].Required) </td>*@
-                            <td><select name="Request.Competences[@index].MinLevel" asp-for="Request.Competences[index].MinLevel" asp-items="Model.Levels" class="form-control"></select></td>
-                            <td class="text-center">@Html.CheckBoxFor(m => m.Request.Competences[index].MinLevelRequired) </td>
+                            <td><select name="SearchRequest.Competences[@index].MinLevel" asp-for="@competence.MinLevel" asp-items="Model.Levels" class="form-control"></select></td>
+                            <td class="text-center">@Html.CheckBox("SearchRequest.Competences[" + @index + "].MinLevelRequired", competence.MinLevelRequired) </td>
                             <td><button asp-page-handler="RemoveCompetenceRequest" asp-route-index="@index" class="btn btn-outline-danger float-right">-</button></td>
                         </tr>
                     }
@@ -55,7 +55,7 @@
                     <thead>
                         <tr>
                             <td>Имя</td>
-                            @for (int i = 0; i < Model.Request.Competences.Count; i++)
+                            @for (int i = 0; i < Model.SearchRequest.Competences.Count; i++)
                             {
                                 <td>@Model.Result.Employees.First().Competences[i].Name</td>
                             }
@@ -66,7 +66,7 @@
                         {
                             <tr>
                                 <td>@employee.Name</td>
-                                @for (int i = 0; i < Model.Request.Competences.Count; i++)
+                                @for (int i = 0; i < Model.SearchRequest.Competences.Count; i++)
                                 {
                                     <td>@employee.Competences[i].Level</td>
                                 }

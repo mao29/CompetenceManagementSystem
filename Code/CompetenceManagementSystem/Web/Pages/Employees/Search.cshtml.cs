@@ -23,7 +23,7 @@ namespace CompetenceManagementSystem.Web.Pages.Employees
         }
 
         [BindProperty]
-        public SearchEmployeesRequest Request { get; set; }
+        public SearchEmployeesRequest SearchRequest { get; set; }
 
         public IEnumerable<SelectListItem> Levels => Enum.GetValues(typeof(CompetenceLevel))
            .Cast<CompetenceLevel>()
@@ -37,9 +37,9 @@ namespace CompetenceManagementSystem.Web.Pages.Employees
 
         private async Task FillData()
         {
-            if (Request.Competences == null)
+            if (SearchRequest.Competences == null)
             {
-                Request.Competences = new List<SearchCompetenceRequest>();
+                SearchRequest.Competences = new List<SearchCompetenceRequest>();
             }
             var competences = await _mediator.Send(new GetSearchEmployeesQuery());
             //Categories = Competences
@@ -51,7 +51,7 @@ namespace CompetenceManagementSystem.Web.Pages.Employees
 
         public async Task OnGetAsync()
         {
-            Request = new SearchEmployeesRequest()
+            SearchRequest = new SearchEmployeesRequest()
             {
                 Competences = new List<SearchCompetenceRequest>()
             };
@@ -62,14 +62,14 @@ namespace CompetenceManagementSystem.Web.Pages.Employees
         {
             await FillData();
            
-            Request.Competences.Add(new SearchCompetenceRequest());
+            SearchRequest.Competences.Add(new SearchCompetenceRequest());
         }
 
         public async Task OnPostRemoveCompetenceRequest(int index)
         {
             await FillData();
 
-            Request.Competences.RemoveAt(index);
+            SearchRequest.Competences.RemoveAt(index);
         }
 
         public async Task OnPostSearchAsync()
@@ -78,13 +78,13 @@ namespace CompetenceManagementSystem.Web.Pages.Employees
             
             try
             {
-                Result = await _mediator.Send(Request);
+                Result = await _mediator.Send(SearchRequest);
             }
             catch (ValidationException ex)
             {
                 foreach (var error in ex.Errors)
                 {
-                    ModelState.AddModelError($"{nameof(Request)}.{error.PropertyName}", error.ErrorMessage);
+                    ModelState.AddModelError($"{nameof(SearchRequest)}.{error.PropertyName}", error.ErrorMessage);
                 }
             }
         }
