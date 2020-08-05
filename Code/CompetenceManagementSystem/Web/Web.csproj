@@ -5,7 +5,6 @@
     <AssemblyName>CompetenceManagementSystem.Web</AssemblyName>
     <RootNamespace>CompetenceManagementSystem.Web</RootNamespace>
     <UserSecretsId>0dfb6d5f-5496-487f-9257-22a8e5b6fb1f</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
